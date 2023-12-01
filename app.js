@@ -20,7 +20,7 @@ app.set("view engine", "ejs")
 
 app.post('/list', async (req, res) => {
 	const pool = mariadb.createPool({
-		host: 'localhost',
+		host: '34.125.65.44',
 		user:'test5',
 		password: 'test5password',
 		port:3306,
@@ -478,7 +478,7 @@ app.post('/beacon', async (req,res) => {
 	}
 
 	const pool = mariadb.createPool({
-		host: 'localhost',
+		host: '34.125.65.44',
 		user:'test5',
 		password: 'test5password',
 		port:3306,
@@ -572,7 +572,7 @@ app.post('/floor', async (req,res) => {
 	}
 	
 	const pool = mariadb.createPool({
-		host: 'localhost',
+		host: '34.125.65.44',
 		user:'test5',
 		password: 'test5password',
 		port:3306,
@@ -667,7 +667,7 @@ app.post('/data', async (req, res) => {
 	}
 
 	const pool = mariadb.createPool({
-		host: 'localhost',
+		host: '34.125.65.44',
 		user:'test5',
 		password: 'test5password',
 		port:3306,
