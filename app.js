@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(express.static('public'));
 const mariadb = require('mariadb');
 
-const portt = process.env.PORT || 3000
+const PORT = 3000;
 
 app.set("view engine", "ejs")
 
@@ -712,6 +712,6 @@ app.post('/data', async (req, res) => {
 
 
 // Start up web server and begin listening on port 5000
-var server = app.listen(portt, function() {
-	console.log(`Server is listening at port ${process.env.PORT} or whatever from heroku...`);
+var server = app.listen(PORT, function() {
+	console.log(`Server is listening at port ${PORT}`);
 });
