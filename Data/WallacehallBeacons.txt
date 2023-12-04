@@ -1,0 +1,4 @@
+1	Wallace Hall	1	WH-1ST-FLR.png	list.rtf
+1	Wallace Hall	2	WH-2ND-FLR.png	list.rtf
+1	Wallace Hall	3	WH-3RD-FLR.png	list.rtf
+2	Jabara Hall	1	Jabara-1ST-FLR.png	list.rtf
