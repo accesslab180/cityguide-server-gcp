@@ -465,8 +465,8 @@ app.post('/beacon', async (req,res) => {
 		location_name: 'Lehigh University',
 		location_lat: 40.60,
 		location_long: 75.37,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
 	
 	}];
 
@@ -560,8 +560,8 @@ app.post('/floor', async (req,res) => {
 		location_name: 'Lehigh University',
 		location_lat: 40.60,
 		location_long: 75.37,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
 	
 	}];
 
@@ -654,8 +654,8 @@ app.post('/data', async (req, res) => {
 		location_name: 'Lehigh University',
 		location_lat: 40.60,
 		location_long: 75.37,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
 	
 	}];
 
