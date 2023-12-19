@@ -1,0 +1,1 @@
+1	Lehigh HST building	0	floormap.png	hst_lower_level_beacons.rtf
