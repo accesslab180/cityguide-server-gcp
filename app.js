@@ -475,7 +475,17 @@ app.post('/beacon', async (req,res) => {
 		beaconTable: 'hstBeacons',
 		beaconDataTable: 'hstBeaconData'
 	
-	}];
+	},{
+		location_id : 5,
+		location_name: `Badri's Home`,
+		location_lat: 40.60,
+		location_long: 75.38,
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
+	
+	}
+
+];
 
 	for(i=0;i<location.length;i++){
 		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
@@ -570,7 +580,15 @@ app.post('/floor', async (req,res) => {
 		beaconTable: 'hstBeacons',
 		beaconDataTable: 'hstBeaconData'
 	
-	}];
+	},{
+		location_id : 5,
+		location_name: `Badri's Home`,
+		location_lat: 40.60,
+		location_long: 75.38,
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
+	}
+];
 
 	for(i=0;i<location.length;i++){
 		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
@@ -663,6 +681,16 @@ app.post('/data', async (req, res) => {
 		location_long: 75.37,
 		beaconTable: 'hstBeacons',
 		beaconDataTable: 'hstBeaconData'
+	
+	},
+	{
+		location_id : 5,
+		location_name: `Badri's Home`,
+		location_lat: 40.60,
+		location_long: 75.38,
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData'
+	
 	
 	}];
 
