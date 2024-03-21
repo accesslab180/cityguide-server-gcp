@@ -25,6 +25,30 @@ app.set("view engine", "ejs")
 
 
 
+	app.post('/getinfo', async (req, res) => {
+		console.log(req.body);
+		const pool = mariadb.createPool({
+			host: host,
+			user:username,
+			password: password,
+			port:port,
+			trace: true,	
+		
+		});
+		let conn;
+		try{
+			conn = await pool.getConnection();
+			const rows = await conn.query(`SELECT * from CityGuide.${req.body.requestedTable}`);
+			res.json(rows);
+
+		}catch(err){
+			console.error(err); // Log the error
+			res.status(500).json({ error: 'An error occurred' });
+		} finally{
+			if (conn) conn.release();
+		}
+	});
+
 
 //***************************************************************************//
 // Handle POST requests for the list of beacons and files

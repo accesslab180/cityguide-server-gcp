@@ -10,35 +10,174 @@
 	</head>
 	<body>
 
+		<h1 style="color: #4a4a4a; font-size: 50px; text-align: center; font-family: 'Arial', sans-serif; text-shadow: 2px 2px 4px #999999;">CityGuide information</h1>
 
-		<div id="viewDataDiv">
+		<div style = "display: flex; justify-content: center; align-items: center; height: 100px;" class="row">
 
-			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Dropdown button
-			  </button>
-			  <ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">Action</a></li>
-				<li><a class="dropdown-item" href="#">Another action</a></li>
-				<li><a class="dropdown-item" href="#">Something else here</a></li>
-			  </ul>
+		<div id="viewDataDiv" class="col-sm-12">
 
-			  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Dropdown button
-			  </button>
-			  <ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">Action</a></li>
-				<li><a class="dropdown-item" href="#">Another action</a></li>
-				<li><a class="dropdown-item" href="#">Something else here</a></li>
-			  </ul>
-
-			  <button type="button" class="btn btn-primary">Link</button>
-
+			<table>
+				<tr>
+					<td>
+						<label for="locationDropdown">Select location</label>
+					</td>
+					<td>
+						<label for="tableDropdown">Select table</label>
+					</td>
+				<tr>
+					<td>
+						<select name="location" id="selectedLocation">
+							<option value="wallacehall">WSU Wallace Hall</option>
+							<option value="envision">Envision Wichita</option>
+							<option value="hst">HST Building - Lehigh</option>
+						</select>
+					</td>
+					<td>
+						<select name="table" id="selectedTable">
+							<option value="Beacons">Beacon Table</option>
+							<option value="BeaconData">Beacon Data Table</option>
+							<option value="Feedback">Feedback Table</option>
+						</select>
+					</td>
+					<td><button type="button" class="" id="searchButton" onclick="callApi()">Search</button></td>
+				</tr>
+			</table>			  
 
 		</div>
-		
+		<div class="col-sm-12">
+			<div id="tableContainer" >
+
+			</div>
+		</div>		
+
+	</div>
+
+
+	<style>
+		label{
+			float: left;
+			margin-left: 10px;
+			margin-bottom: -10px;
+		}
+
+		select{
+			width: 200px;
+			height: 40px;
+			margin: 10px;
+			background-color:#F7F7F7;
+			
+			border-color: blue;
+			border-radius: 5px;
+		}
+		button{
+			height: 40px;
+			margin: 10px;
+			display: block;
+			border: none;
+			border-radius: 5px;
+			background-color: #3799F5;
+			color: white;
+		}
+
+		/* #tableContainer{
+			margin-top: 20px;
+			display: block;
+			clear: both;
+		} */
+
+		#dataTable{
+			background-color:#EFEFEF;
+		}
+
 		
 
-		<div id=list>
+		#dataTable tr:nth-child(even){
+			background-color: aquamarine;
+		}
+
+	</style>
+
+	<script>
+
+		var receivedData;
+		async function callApi() {
+			receivedData = null;
+			var location = document.getElementById("selectedLocation").value;
+			var table = document.getElementById("selectedTable").value;
+			console.log(location+table);
+
+			const response = await fetch('/getinfo', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({requestedTable:location+table})
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			const data = await response.json();
+			console.log(data);
+			displayDataInTable(data);
+		}
+
+	function displayDataInTable(data) {
+    // Get the table container
+    var tableContainer = document.getElementById('tableContainer');
+
+    // Remove any existing table
+    while (tableContainer.firstChild) {
+        tableContainer.removeChild(tableContainer.firstChild);
+    }
+
+    // Create a table
+    var table = document.createElement('table');
+	table.id = 'dataTable';
+	table.className = 'table table-striped';
+
+    // Create table header row
+    var thead = document.createElement('thead');
+    var headerRow = document.createElement('tr');
+
+    // Assuming data is an array of objects, get the keys from the first object for the header
+    for (var key in data[0]) {
+        var th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+    }
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body
+    var tbody = document.createElement('tbody');
+
+    // Create a row for each object in the data
+    for (var obj of data) {
+        var tr = document.createElement('tr');
+
+        // Create a cell for each property in the object
+        for (var key in obj) {
+            var td = document.createElement('td');
+            td.textContent = obj[key];
+            tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+
+    // Append the new table to the table container
+    tableContainer.appendChild(table);
+}
+
+
+	</script>
+		
+
+		<!-- <div id=list>
 			<form method="POST" action="/list">
 				<div>
 					<label for="list"></label>
@@ -46,8 +185,12 @@
 					<button>GO TO LIST OF BEACONS & FILES</button>
 				</div>
 			</form>
-		</div>
-		<div id=title>
+		</div> -->
+		
+		
+		
+		
+		<!-- <div id=title>
 			<h1>Floorplan File Insert</h1>
 			<h3>Please enter the Group ID, name for the group you want to enter, and the filenames of the files you want to insert</h3>
 		</div>
@@ -163,6 +306,6 @@
 			</div>
 			</div>
 		</div>
-		
+		 -->
 	</body> 
 </html>
