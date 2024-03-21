@@ -22,6 +22,10 @@ app.set("view engine", "ejs")
 		res.render('pages/index');
 	});
 
+
+
+
+
 //***************************************************************************//
 // Handle POST requests for the list of beacons and files
 
@@ -446,53 +450,9 @@ app.post('/beacon', async (req,res) => {
 	var long = req.body.long;
 	lat = Number((lat.toString()).substring(0,5));
 	long = Number((long.toString()).substring(1,6));
-	var location = [{
-		location_id : 1,
-		location_name: 'Wichita State University',
-		location_lat: 37.71,
-		location_long: 97.29,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
-	},{
-		location_id : 2,
-		location_name: 'Envision HQ',
-		location_lat: 37.69,
-		location_long: 97.33,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 3,
-		location_name: 'Envision Art Gallery',
-		location_lat: 37.68,
-		location_long: 97.32,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 4,
-		location_name: 'Lehigh University',
-		location_lat: 40.60,
-		location_long: 75.37,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
 	
-	},{
-		location_id : 5,
-		location_name: `Badri's Home`,
-		location_lat: 40.60,
-		location_long: 75.38,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
-	
-	}
 
-];
-
-	for(i=0;i<location.length;i++){
-		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
-			beacons = location[i]["beaconTable"];
-			console.log(beacons);
-		}
-	}
+	let currentTables = selectTables(lat,long);
 
 	const pool = mariadb.createPool({
 		host: host,
@@ -505,7 +465,7 @@ app.post('/beacon', async (req,res) => {
 	let conn;
 	try{
 		conn = await pool.getConnection();
-		query = `SELECT beacon_file from CityGuide.${beacons} WHERE group_id = ${gid} AND floor_num = ${fno}`;
+		query = `SELECT beacon_file from CityGuide.${currentTables.beacon_table} WHERE group_id = ${gid} AND floor_num = ${fno}`;
 
 		const rows = await conn.query(query);
 		try{
@@ -551,50 +511,7 @@ app.post('/floor', async (req,res) => {
 	var long = req.body.long;
 	lat = Number((lat.toString()).substring(0,5));
 	long = Number((long.toString()).substring(1,6));
-	var location = [{
-		location_id : 1,
-		location_name: 'Wichita State University',
-		location_lat: 37.71,
-		location_long: 97.29,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
-	},{
-		location_id : 2,
-		location_name: 'Envision HQ',
-		location_lat: 37.69,
-		location_long: 97.33,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 3,
-		location_name: 'Envision Art Gallery',
-		location_lat: 37.68,
-		location_long: 97.32,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 4,
-		location_name: 'Lehigh University',
-		location_lat: 40.60,
-		location_long: 75.37,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
-	
-	},{
-		location_id : 5,
-		location_name: `Badri's Home`,
-		location_lat: 40.60,
-		location_long: 75.38,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
-	}
-];
-
-	for(i=0;i<location.length;i++){
-		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
-			beacons = location[i]["beaconTable"];
-		}
-	}
+	let currentTables = selectTables(lat,long);
 	
 	const pool = mariadb.createPool({
 		host: host,
@@ -607,7 +524,7 @@ app.post('/floor', async (req,res) => {
 	let conn;
 	try{
 		conn = await pool.getConnection();
-		var query = `SELECT floor_file from CityGuide.${beacons} WHERE group_id = ${gid} AND floor_num = ${fno}`;
+		var query = `SELECT floor_file from CityGuide.${currentTables.beacon_table} WHERE group_id = ${gid} AND floor_num = ${fno}`;
 		const rows = await conn.query(query);
 		try{
 			if (rows.length > 0){
@@ -653,53 +570,7 @@ app.post('/data', async (req, res) => {
 	var long = req.body.long;
 	lat = Number((lat.toString()).substring(0,5));
 	long = Number((long.toString()).substring(1,6));
-	var location = [{
-		location_id : 1,
-		location_name: 'Wichita State University',
-		location_lat: 37.71,
-		location_long: 97.29,
-		beaconTable: 'wallacehallBeacons',
-		beaconDataTable: 'wallacehallBeaconData'
-	},{
-		location_id : 2,
-		location_name: 'Envision HQ',
-		location_lat: 37.69,
-		location_long: 97.33,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 3,
-		location_name: 'Envision Art Gallery',
-		location_lat: 37.68,
-		location_long: 97.32,
-		beaconTable: 'envisionBeacons',
-		beaconDataTable: 'envisionBeaconData'
-	},{
-		location_id : 4,
-		location_name: 'Lehigh University',
-		location_lat: 40.60,
-		location_long: 75.37,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
-	
-	},
-	{
-		location_id : 5,
-		location_name: `Badri's Home`,
-		location_lat: 40.60,
-		location_long: 75.38,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData'
-	
-	
-	}];
-
-	for(i=0;i<location.length;i++){
-		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
-			beaconData = location[i]["beaconDataTable"];
-			console.log(beaconData);
-		}
-	}
+	let currentTables = selectTables(lat,long);
 
 	const pool = mariadb.createPool({
 		host: host,
@@ -714,7 +585,7 @@ app.post('/data', async (req, res) => {
 	try{
 
 		conn = await pool.getConnection();
-		var queryA = `SELECT * FROM CityGuide.${beaconData} WHERE beacon_id = ${beaconid}`;
+		var queryA = `SELECT * FROM CityGuide.${currentTables.beacon_data_table} WHERE beacon_id = ${beaconid}`;
 		const rows = await conn.query(queryA);
 		if (rows.length > 0) {
 			let records = {
@@ -745,8 +616,109 @@ app.post('/data', async (req, res) => {
 
 });
 
+// Handles feedback requests
+
+app.post('/sendFeedback', async(req,res) => {
+
+	var feedback_table;
+	var {date, stars, comment, lat, long} = req.body;
+	lat = Number((lat.toString()).substring(0,5));
+	long = Number((long.toString()).substring(1,6));
+
+	let currentTables = selectTables(lat,long);
+
+	const pool = mariadb.createPool({
+		host: host,
+		user:username,
+		password: password,
+		port:port,
+		trace: true,	
+	
+	});
+
+	let conn;
+	try{
+		conn = await pool.getConnection();
+		var query = `INSERT INTO CityGuide.${currentTables.feedback_table} VALUES('${date}', ${stars}, '${comment}')`;
+		const result = await conn.query(query);
+		console.log(result);
+		res.status(200).json({ message: 'Data successfully stored' });
+			
+	}catch(err){
+		console.log(err);
+	}
+
+});
+
 
 // Start up web server and begin listening on port 5000
-var server = app.listen(PORT, function() {
+var server = app.listen(PORT, '0.0.0.0', function() {
 	console.log(`Server is listening at port ${PORT}`);
 });
+
+function selectTables(lat, long){
+
+	var tables = {
+		beacon_table: '',
+		beacon_data_table: '',
+		feedback_table: ''
+	}
+
+	var location = [{
+		location_id : 1,
+		location_name: 'Wichita State University',
+		location_lat: 37.71,
+		location_long: 97.29,
+		beaconTable: 'wallacehallBeacons',
+		beaconDataTable: 'wallacehallBeaconData',
+		feedbackTable: 'wallacehallFeedback'
+	},{
+		location_id : 2,
+		location_name: 'Envision HQ',
+		location_lat: 37.69,
+		location_long: 97.33,
+		beaconTable: 'envisionBeacons',
+		beaconDataTable: 'envisionBeaconData',
+		feedbackTable: 'envisionFeedback'
+	},{
+		location_id : 3,
+		location_name: 'Envision Art Gallery',
+		location_lat: 37.68,
+		location_long: 97.32,
+		beaconTable: 'envisionBeacons',
+		beaconDataTable: 'envisionBeaconData',
+		feedbackTable: 'envisionFeedback'
+	},{
+		location_id : 4,
+		location_name: 'Lehigh University',
+		location_lat: 40.60,
+		location_long: 75.37,
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData',
+		feedbackTable: 'hstFeedback'
+	
+	},
+	{
+		location_id : 5,
+		location_name: `Badri's Home`,
+		location_lat: 40.60,
+		location_long: 75.38,
+		beaconTable: 'hstBeacons',
+		beaconDataTable: 'hstBeaconData',
+		feedbackTable: 'hstFeedback'
+	
+	
+	}];
+
+
+	for(i=0;i<location.length;i++){
+		if(location[i]["location_lat"] == lat && location[i]["location_long"] == long){
+			tables.beacon_table = location[i]["beaconTable"];
+			tables.beacon_data_table = location[i]["beaconDataTable"];
+			tables.feedback_table = location[i]["feedbackTable"];
+			break;
+		}
+	}
+
+	return tables;
+}
