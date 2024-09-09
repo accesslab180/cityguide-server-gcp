@@ -670,6 +670,8 @@ app.post('/sendFeedback', async(req,res) => {
 			
 	}catch(err){
 		console.log(err);
+	}finally{
+		if (conn) conn.release();
 	}
 
 });
@@ -724,15 +726,27 @@ function selectTables(lat, long){
 	},
 	{
 		location_id : 5,
-		location_name: `Badri's Home`,
-		location_lat: 40.60,
-		location_long: 75.38,
-		beaconTable: 'hstBeacons',
-		beaconDataTable: 'hstBeaconData',
-		feedbackTable: 'hstFeedback'
+		location_name: `Temp Location`,
+		location_lat: 36.33,
+		location_long: 94.26,
+		beaconTable: 'tamuBeacons',
+		beaconDataTable: 'tamuBeaconData',
+		feedbackTable: 'tamuFeedback'
 	
 	
-	}];
+	},{
+		location_id : 6,
+		location_name: `Texas A&M University`,
+		location_lat: 30.62,
+		location_long: 96.33,
+		beaconTable: 'tamuBeacons',
+		beaconDataTable: 'tamuBeaconData',
+		feedbackTable: 'tamuFeedback'
+	
+	
+	}
+
+];
 
 
 	for(i=0;i<location.length;i++){
